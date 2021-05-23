@@ -5,8 +5,9 @@ and then there will be a part where the customers can find available cars, entry
 and also contact the managers.
 
 How to start the project:
-1) Download from github
-2) cd path to your folder
-3) venv\Scripts\activate
-4) cd carproject
-5) python manage.py runserver
+1) Clone the project from github
+2) Create a virtual environment
+3) Activate the virtual environment
+4) Run the command pip freeze > requirements.txt
+5) Go to the carproject
+6) Run the command python manage.py runserver
