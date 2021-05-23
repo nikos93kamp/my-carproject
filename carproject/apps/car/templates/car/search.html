@@ -1,0 +1,100 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div id="search-app">
+        <h1 class="title">Search</h1>
+
+        <form @submit.prevent="performSearch()">
+            <div class="columns">
+                <div class="column is-4">
+                    <div class="field">
+                        <label>Query</label>
+
+                        <div class="control">
+                            <input type="text" name="query" class="input" v-model="query">
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Fuel type</label>
+
+                        <div class="control">
+                            <div class="select">
+                                <select name="fuel_type" v-model="fuel_type">
+                                    <option value="" selected>Choose one</option>
+                                    <option value="gasoline">Gasoline</option>
+                                    <option value="diesel">Diesel</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-success">Search</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div v-if="cars.length">
+            <hr>
+
+            <div
+                v-for="car in cars"
+                :key="car.id"
+                class="notification mt-2"
+            >
+                <h3 class="is-size-4">[[ car.brand ]]</h3>
+                <p>[[ car.model ]]</p>
+
+                <a :href="car.url">View details</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const SearchApp = {
+        data() {
+            return {
+                query: '',
+                fuel_type: '',
+                cars: []
+            }
+        },
+        delimeters: ['[[', ']]'],
+        methods: {
+            performSearch() {
+                var data = {
+                    'query': this.query,
+                    'fuel_type': this.fuel_type
+                }
+
+                fetch('/cars/api/search/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'dealership/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then((response) => {
+                    return response.json()
+                })
+                .then((result) => {
+                    console.log(result.cars)
+                    this.cars = result.cars
+                })
+                .catch((error) => {
+                    console.log('Error', error)
+                })
+            }
+        }
+    }
+
+    Vue.createApp(SearchApp).mount('#search-app')
+</script>
+{% endblock %}

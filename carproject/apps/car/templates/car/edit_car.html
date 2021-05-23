@@ -1,0 +1,134 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div id="edit-car-app">
+    <h1 class="title">Edit car</h1>
+
+        <form method="post" action="." v-on:submit="validateForm">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                {% for error in form.errors %}
+                    <div class="notification is-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="notification is-danger" v-if="errors.length">
+                <p v-for="error in errors">
+                    [[ error ]]
+                </p>
+            </div>
+
+            <div class="field">
+                <label>Brand</label>
+
+                <div class="control">
+                    <input class="input" type="text" name="brand" id="id_brand" v-model="brand">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Model</label>
+
+                <div class="control">
+                    <input class="input" type="text" name="model" id="id_model" v-model="model">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Engine Size</label>
+
+                <div class="control">
+                    <input class="input" type="text" name="engine_size" id="id_engine_size" v-model="engine_size">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Horsepower</label>
+
+                <div class="control">
+                    <input class="input" type="text" name="horsepower" id="id_horsepower" v-model="horsepower">
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Fuel Type</label>
+
+                <div class="control">
+                    <div class="select">
+                        <select name="fuel_type" v-model="fuel_type">
+                            <option value="">Choose fuel</option>
+                            <option value="gasoline">Gasoline</option>
+                            <option value="diesel">Diesel</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>Is Hybrid</label>
+
+                <div class="control">
+                    <input type="checkbox" name="is_hybrid" id="id_is_hybrid">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <button class="button is-success">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const EditCarApp = {
+        data() {
+            return {
+                brand: '{{ car.brand }}',
+                model: '{{ car.model }}',
+                engine_size: '{{ car.engine_size }}',
+                horsepower: '{{ car.horsepower }}',
+                fuel_type: '{{ car.fuel_type }}',
+                errors: []
+            }
+        },
+        delimiters: ['[[', ']]'],
+        methods: {
+            validateForm(e) {
+                this.errors = []
+
+                if (this.brand === '') {
+                    this.errors.push('The brand field is missing!')
+                }
+
+                if (this.model === '') {
+                    this.errors.push('The model field is missing!')
+                }
+
+                if (this.engine_size === '') {
+                    this.errors.push('The engine_size field is missing!')
+                }
+
+                if (this.fuel_type === '') {
+                    this.errors.push('The fuel_type field is missing!')
+                }
+
+                if (this.errors.length) {
+                    e.preventDefault()
+
+                    return false
+                } else {
+                    return true
+                }
+            }
+        }
+    }
+
+    Vue.createApp(EditCarApp).mount('#edit-car-app');
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1 class="title">View dealership</h1>
+
+    <h2 class="subtitle">{{ dealership.car.brand }}</h2>
+
+    <p><strong>Name: </strong><br>{{ dealership.name }}</p>
+    <p><strong>Address: </strong><br>{{ dealership.address }}</p>
+
+    <hr>
+
+    <h2 class="subtitle">Conversation</h2>
+
+    {% for message in dealership.conversationmessages.all %}
+        <div class="notification">
+            <b>{{ message.created_by.username }}</b><br>
+
+            {{ message.content }}
+        </div>
+    {% empty %}
+        <p>No messages yet...</p>
+
+        <hr>
+    {% endfor %}
+
+    <form method="post" action=".">
+        {% csrf_token %}
+
+        <div class="field">
+            <div class="control">
+                <textarea class="textarea" placeholder="Your message" name="content" id="id_content"></textarea>
+            </div>
+        </div>
+
+        <div class="field">
+            <div class="control">
+                <button class="button is-success">Send</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

@@ -1,0 +1,12 @@
+The project we will be building will be called CarProject.
+The project will be split into two parts one for the managers and one for the customers
+We will build a seperate admin area for the managers where they can submit the cars, change their profile and similar
+and then there will be a part where the customers can find available cars, entry a car,
+and also contact the managers.
+
+How to start the project:
+1) Download from github
+2) cd path to your folder
+3) venv\Scripts\activate
+4) cd carproject
+5) python manage.py runserver

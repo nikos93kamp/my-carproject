@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1 class="title">Dashboard</h1>
+
+    {% if userprofile.is_manager %}
+        <h2 class="subtitle">Cars</h2>
+
+        <a href="{% url 'add_car' %}" class="button is-success">Add car</a>
+
+        {% for car in request.user.cars.all %}
+            <div class="car">
+                <a href="{% url 'view_dashboard_car' car.id %}">{{ car.brand }}</a>
+            </div>
+        {% empty %}
+            <p>You don't have any cars yet...</p>
+        {% endfor %}
+    {% else %}
+        <h2 class="subtitle">Dealerships</h2>
+
+        {% for dealership in request.user.dealerships.all %}
+            <div class="dealership">
+                <a href="{% url 'view_dealership' dealership.id %}">{{ dealership.car.brand }}</a>
+            </div>
+        {% empty %}
+            <p>You haven't entry any cars yet...</p>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

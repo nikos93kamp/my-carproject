@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1 class="title">{{ car.brand }}</h1>
+
+    <p class="is-size-4">{{ car.model }}</p>
+
+    <p>{{ car.engine_size }}</p>
+
+    <b>Dealership name: </b>
+    {% for dealership in car.dealerships.all %}
+        {{ dealership.name }}
+    {% endfor %}<br>
+
+    <a href="{% url 'entry_for_car' car.id %}" class="button is-success">Entry for car</a>
+{% endblock %}

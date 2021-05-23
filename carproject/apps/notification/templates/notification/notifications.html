@@ -1,0 +1,27 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="title">Notifications</h1>
+
+        {% if not notifications %}
+            No notifications yet!
+        {% endif %}
+
+        {% for notification in notifications %}
+            <div class="notification">
+                <p>
+                    {% if notification.notification_type == 'message' %}
+                        <a href="{% url 'notifications' %}?goto=view_dealership&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
+                            <strong>{{ notification.created_by.username }}</strong> sent you a message<br>
+                        </a>
+                    {% elif notification.notification_type == 'dealership' %}
+                        <a href="{% url 'notifications' %}?goto=view_dealership&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
+                            <strong>{{ notification.created_by.username }}</strong> applied for your car<br>
+                        </a>
+                    {% endif %}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

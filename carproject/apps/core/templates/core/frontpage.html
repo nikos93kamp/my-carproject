@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h2 class="subtitle has-text-centered">Newest cars</h2>
+
+    <div class="columns">
+        {% for car in cars %}
+            <div class="column is-4">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="media">
+                            <div class="media-content">
+                                <p class="title is-4">{{ car.brand }}</p>
+                                <p class="subtitle is-6">{{ car.created_by }}</p>
+                            </div>
+                        </div>
+
+                        <div class="content">
+                            {{ car.model }}
+
+                            <hr>
+
+                            <a href="{% url 'car_detail' car.id %}">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
